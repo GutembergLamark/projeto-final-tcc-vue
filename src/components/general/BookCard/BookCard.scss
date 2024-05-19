@@ -1,0 +1,132 @@
+.card {
+  background-color: $white-color;
+  border-radius: 1.5rem;
+  max-width: 41.5rem;
+  min-width: clamp(30rem, 40cqi, 40rem);
+  padding: clamp(1.4rem, 1.6cqi, 1.6rem) clamp(1.8rem, 2cqi, 2rem);
+  position: relative;
+
+  & img {
+    position: relative;
+    z-index: 10;
+    object-fit: cover;
+    height: 100%;
+  }
+
+  & a {
+    display: flex;
+    gap: clamp(1.3rem, 1.7cqi, 1.7rem);
+    height: 100%;
+  }
+
+  @container card (max-width: 900px) {
+    & {
+      max-width: 100%;
+    }
+  }
+
+  & figure {
+    background-color: $gray-color-100;
+    min-width: 11.3rem;
+    min-height: 100%;
+    border-radius: 0.8rem;
+    overflow: hidden;
+    position: relative;
+  }
+
+  &__text {
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    gap: 0.8rem;
+
+    & h3 {
+      @include _1-6rem($weight: 600, $height: clamp(1.875rem, 2.2cqi, 2.2rem), $align: left);
+      color: $blue-color;
+      max-width: 90%;
+    }
+
+    & p {
+      @include _1-1rem($align: left);
+      color: $color-neutral;
+      word-break: break-all;
+    }
+
+    & p:has(span) {
+      display: flex;
+      gap: clamp(0.75rem, 0.9cqi, 0.9rem);
+      @include _1-2rem($align: left);
+      margin-top: auto;
+
+      & span:last-of-type {
+        color: $color-neutral;
+      }
+    }
+  }
+
+  &__loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(
+      90deg,
+      $gray-color-100 0px,
+      $white-color 2.5rem,
+      $gray-color-100 5rem
+    );
+    background-size: 5rem;
+    background-repeat: no-repeat;
+    -webkit-animation: loading-image 2s infinite ease-out;
+    animation: loading-image 2s infinite ease-out;
+    z-index: 0;
+  }
+
+  @keyframes loading-image {
+    0% {
+      background-position: calc(0% - 5rem);
+    }
+    40%,
+    100% {
+      background-position: calc(100% + 5rem);
+    }
+  }
+
+  &--vertical {
+    max-width: 16.2rem;
+    min-width: 16.2rem;
+
+    & > a {
+      flex-flow: column;
+      height: 100%;
+    }
+
+    & figure {
+      min-height: clamp(18rem, 22.8cqi, 22.8rem);
+    }
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    & p {
+      margin-top: auto;
+    }
+  }
+
+  &__edit:first-of-type {
+    position: absolute;
+    top: clamp(1.4rem, 1.6cqi, 1.6rem);
+    right: clamp(1.8rem, 2cqi, 2rem);
+    z-index: 10;
+    height: auto;
+
+    & img {
+      width: auto;
+      height: auto;
+    }
+  }
+}

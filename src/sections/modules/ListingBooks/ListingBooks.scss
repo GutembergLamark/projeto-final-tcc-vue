@@ -1,0 +1,35 @@
+.l-books {
+  container: card / inline-size;
+  margin: clamp(2.5rem, 3cqi, 3rem) auto clamp(4rem, 5.5cqi, 5.5rem);
+
+  & h2 {
+    @include _1-6rem($align: left);
+    color: $blue-color;
+  }
+
+  &__list {
+    margin-top: clamp(1.2rem, 1.5cqi, 1.5rem);
+    display: flex;
+    flex-flow: row wrap;
+    gap: clamp(1.5rem, 2cqi, 2rem);
+
+    & article {
+      flex: 0 0 calc((100% / 3) - (clamp(1.5rem, 2cqi, 2rem) / 1.5));
+
+      @include max(1000) {
+        flex: 1;
+      }
+    }
+  }
+
+  &__add {
+    background-color: $gray-color-200;
+    width: 10rem;
+    height: 10rem;
+    border-radius: 1rem;
+    margin-top: clamp(1.5rem, 2cqi, 2rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
