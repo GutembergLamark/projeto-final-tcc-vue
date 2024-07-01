@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onUpdated, ref } from 'vue'
 import { IconComponent } from '..'
+
+const showModal = ref<boolean>(false)
 
 const props = defineProps({
   type: String,
@@ -10,6 +12,18 @@ const props = defineProps({
   status: Boolean,
   author: String,
   edit: Boolean
+})
+
+function handleClick() {
+  showModal.value = true
+}
+
+function close() {
+  showModal.value = false
+}
+
+onUpdated(() => {
+  console.log(showModal)
 })
 </script>
 
@@ -23,15 +37,7 @@ const props = defineProps({
     >
       <IconComponent type="edit" />
     </router-link>
-    <router-link
-      :to="`/book/${title
-        ?.toLowerCase()
-        .replace(/\s/g, '-')
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')}?title=${title}${
-        type === 'vertical' ? '&bookmark=true' : ''
-      }`"
-    >
+    <div @click="handleClick" data-cy="card-button">
       <figure>
         <img v-if="image" :src="image" width="113" height="170" :alt="title" />
         <div class="card__loading"></div>
@@ -49,8 +55,18 @@ const props = defineProps({
           <span>{{ type === 'vertical' ? 'Ver' : author }}</span>
         </p>
       </div>
-    </router-link>
+    </div>
   </article>
+
+  <dialog name="fade" v-if="showModal" class="modal" :open="showModal" data-cy="modal">
+    <article>
+      <div className="{style?.modal__close}">
+        <button @click="close">&times;</button>
+      </div>
+
+      <h3 v-if="title">{{ title }}</h3>
+    </article>
+  </dialog>
 </template>
 
 <style src="./BookCard.scss" lang="scss" scoped />

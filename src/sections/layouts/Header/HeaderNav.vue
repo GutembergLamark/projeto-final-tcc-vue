@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { IconComponent } from '@/components/general'
 import { FormSearchComponent } from '@/components/forms'
+import { useRoute } from 'vue-router'
 
 const active = ref('')
 
@@ -11,8 +12,10 @@ const props = defineProps({
   payload: String
 })
 
+const route = useRoute()
+
 const pathname = computed(function () {
-  return window.location.pathname.replace('/', '')
+  return route.path.replace('/', '')
 })
 
 active.value = pathname.value ?? 'dashboard'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, type PropType } from 'vue'
+import { onMounted, ref, watch, type PropType } from 'vue'
 import { getBooks } from '@/utils/requests'
 import './ListingBooks.scss'
 import ListingBooksFilter from './ListingBooksFilter.vue'
@@ -12,6 +12,7 @@ import type {
 import { useCookies } from 'vue3-cookies'
 import type { JWTPayload } from 'jose'
 import { IconComponent } from '@/components/general'
+import { useRoute } from 'vue-router'
 
 const { cookies } = useCookies()
 
@@ -19,6 +20,8 @@ const props = defineProps({
   fields: Object as PropType<ListingBooksFields>,
   order: Number
 })
+
+const route = useRoute()
 
 const payload = ref<JWTPayload | null>({})
 const books = ref<ListingBooksBook[]>([])
@@ -28,13 +31,13 @@ async function getData() {
     const data = await decrypt(cookies?.get('session-vue'))
     const dataBooks = await getBooks<ListingBooksFetch>()
     payload.value = data
-    books.value = dataBooks?.books
+    books.value = dataBooks.books
   } catch (err) {
     console.log(err)
   }
 }
 
-getData()
+watch(() => route.path, getData, { immediate: true })
 </script>
 
 <template>
@@ -43,9 +46,9 @@ getData()
 
     <ListingBooksFilter :books="books" :cardType="fields?.cardType" :token="payload" />
 
-    <Link v-if="payload?.email === 'admin@email.com'" to="/book/create" class="l-books__add">
+    <router-link v-if="payload?.email === 'admin@email.com'" to="/book/create" class="l-books__add">
       <IconComponent type="add" />
-    </Link>
+    </router-link>
   </section>
 </template>
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
 import type { RootSectionFields } from './RootSection.interfaces'
-import { FormLoginComponent } from '@/components/forms'
+import { FormLoginComponent, FormRegisterComponent } from '@/components/forms'
 import library from '@/assets/img/library.png'
 
 const props = defineProps({
@@ -28,7 +28,7 @@ const props = defineProps({
       </p>
 
       <FormLoginComponent v-if="fields?.type === 'login'" />
-      <FormRegisterComponent v-else />
+      <FormRegisterComponent v-else-if="fields?.type === 'register'" />
     </article>
     <figure>
       <img :src="library" alt="Library" />

@@ -1,20 +1,11 @@
 <script setup lang="ts">
-import { HeaderLayout } from '@/sections/layouts'
+import { RootSection } from '@/sections/modules'
 </script>
 
 <template>
-  <HeaderLayout />
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <main class="login">
+    <RootSection :fields="{ type: 'register' }" :order="1" />
+  </main>
 </template>
 
-<style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}
-</style>
+<style src="@/assets/sass/pages/login.scss" lang="scss" scoped />

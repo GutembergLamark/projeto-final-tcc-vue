@@ -2,6 +2,12 @@
   container: card / inline-size;
   margin: clamp(2.5rem, 3cqi, 3rem) auto clamp(4rem, 5.5cqi, 5.5rem);
 
+  &:has(.modal) {
+    & {
+      container-type: initial;
+    }
+  }
+
   & h2 {
     @include _1-6rem($align: left);
     color: $blue-color;

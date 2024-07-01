@@ -1,39 +1,51 @@
 <script setup lang="ts">
 import { InputComponent } from '@/components/formsInputs'
 import { ButtonComponent } from '@/components/general'
-import { login } from '@/utils/requests'
+import { register } from '@/utils/requests'
 import { useRouter } from 'vue-router'
-import { useCookies } from 'vue3-cookies'
-
-const { cookies } = useCookies()
 const router = useRouter()
 
 const data = {
+  username: '',
   email: '',
+  cpf: '',
   password: ''
 }
 
 const changeInput = (value: string, name: string) => {
-  data[name as 'email' | 'password'] = value
+  data[name as 'email' | 'password' | 'cpf' | 'username'] = value
 }
 
 const submit = async () => {
-  const request = await login(data)
+  const request = await register(data)
 
-  if (request.token) {
-    cookies?.set('session-vue', request.token)
-    router.push('/dashboard')
+  if (request.user.id) {
+    router.push('/')
   }
 }
 </script>
 
 <template>
-  <form class="form" @submit.prevent="submit" data-cy="login">
+  <form class="form" @submit.prevent="submit" data-cy="register">
+    <InputComponent
+      type="text"
+      placeholder="Seu nome"
+      name="username"
+      :value="data.username"
+      @input-change="changeInput"
+    />
     <InputComponent
       type="email"
       placeholder="Email"
       name="email"
       :value="data.email"
+      @input-change="changeInput"
+    />
+    <InputComponent
+      type="text"
+      placeholder="CPF"
+      name="cpf"
+      :value="data.cpf"
       @input-change="changeInput"
     />
     <InputComponent
@@ -53,4 +65,4 @@ const submit = async () => {
   </form>
 </template>
 
-<style src="./FormLogin.scss" lang="scss" scoped />
+<style src="./FormRegister.scss" lang="scss" scoped />

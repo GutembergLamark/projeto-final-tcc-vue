@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted, type PropType, computed, watch } from 'vue'
+import { ref, onMounted, type PropType, computed, watch, onUpdated } from 'vue'
 import { getListOrders } from '@/utils/requests'
 import type { JWTPayload } from 'jose'
 import { useUrlSearchParams } from '@vueuse/core'
 import type { ListingBooksBook, ListingBooksOrders } from './ListingBooks.interfaces'
 import { BookCardComponent } from '@/components/general'
+import { useRoute } from 'vue-router'
 
-const params = useUrlSearchParams('history')
+const params = useUrlSearchParams('hash-params')
 
 const props = defineProps({
   books: Array as PropType<ListingBooksBook[]>,
@@ -26,12 +27,24 @@ async function getData() {
   }
 }
 
-getData()
+const route = useRoute()
 
 onMounted(async () => {
   if (props?.cardType === 'vertical') {
-    getData()
+    await getData()
+  } else {
+    list.value = props?.books ?? []
   }
+})
+
+onUpdated(() => {
+  list.value = props?.books ?? []
+  console.log(params)
+})
+console.log(route.query)
+
+watch(params?.category! as any, () => (category.value = (params?.category ?? '') as string), {
+  immediate: true
 })
 
 const filteredBooks = computed(() => {
@@ -39,20 +52,12 @@ const filteredBooks = computed(() => {
     category.value !== '' ? book.category === category.value : book
   )
 })
-
-watch(params, () => {
-  list.value = list.value.filter((book) =>
-    category.value !== '' ? book.category === category.value : book
-  )
-})
-console.log(list.value)
 </script>
 
 <template>
-  <p>{{ list }}</p>
   <div class="l-books__list">
     <BookCardComponent
-      v-for="(book, i) in list"
+      v-for="(book, i) in filteredBooks"
       :key="`book-item-${book?.id}-${i}`"
       :type="cardType"
       :title="book?.title"

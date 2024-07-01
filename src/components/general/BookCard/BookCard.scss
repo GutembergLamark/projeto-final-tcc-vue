@@ -13,7 +13,7 @@
     height: 100%;
   }
 
-  & a {
+  & div {
     display: flex;
     gap: clamp(1.3rem, 1.7cqi, 1.7rem);
     height: 100%;
@@ -127,6 +127,99 @@
     & img {
       width: auto;
       height: auto;
+    }
+  }
+}
+
+.modal {
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(45, 45, 45, 0.801);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease-in-out;
+  padding: 0 1rem;
+  transform: translateY(-2rem);
+  transition: 0.6s;
+
+  &[open] {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+  }
+
+  & > article {
+    background: #fff;
+    padding: 1.2rem 1.6rem 3rem 1.6rem;
+    max-width: 45rem;
+    width: 100%;
+  }
+
+  &__close {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__figure {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -2rem;
+  }
+
+  &__content {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 2.4rem;
+    gap: 0.8rem;
+    & > h3 {
+      @include _2-4rem;
+      color: #000;
+      font-weight: 700;
+    }
+
+    & > p {
+      color: #000;
+      font-weight: 400;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3.2rem;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+
+    & > button {
+      padding: 0.8rem 4rem;
+      border: 0.1rem solid #bcbec0;
+      color: #414042;
+      border-radius: 0.5rem;
+
+      font-weight: 400;
+    }
+
+    & > a {
+      padding: 0.8rem 4rem;
+      color: #fff;
+      border-radius: 0.5rem;
+      background-color: #0069a6;
+
+      font-weight: 400;
     }
   }
 }

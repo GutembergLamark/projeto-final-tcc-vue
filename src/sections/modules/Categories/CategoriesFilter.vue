@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, type PropType } from 'vue'
+import { computed, onMounted, onUpdated, ref, type PropType } from 'vue'
 import { IconComponent } from '@/components/general'
 import { useUrlSearchParams } from '@vueuse/core'
 
@@ -17,7 +17,11 @@ const setCategory = (newCategory: string) => {
   category.value === '' ? delete params.category : (params.category = category.value ?? '')
 }
 
-const uniqueCategories = [...new Set(props?.categories)]
+const allCategories = computed(() => {
+  return [...new Set(props?.categories)]
+})
+
+console.log(allCategories.value)
 </script>
 
 <template>
@@ -29,7 +33,7 @@ const uniqueCategories = [...new Set(props?.categories)]
       <p>Todas</p>
     </button>
     <button
-      v-for="(category, i) in uniqueCategories"
+      v-for="(category, i) in allCategories"
       :key="`category-item-${category}-${i}`"
       @click="setCategory(category)"
     >
